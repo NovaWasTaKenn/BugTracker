@@ -16,8 +16,9 @@ namespace Tests_Unitaires
         public void DBConnection()
         {
             DataAccess dataAccess = new DataAccess();
-            dataAccess.GetIssues("quelconque");
-            
+            List<BugTrackerLibrary.Issue> result = dataAccess.GetIssues("quelconque").ToList();
+            Assert.IsNotNull(result);
+            Assert.AreEqual("quelconque", result[0].name);
         }
     }
 }
