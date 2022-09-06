@@ -1,27 +1,41 @@
 ﻿using BugTrackerLibrary;
 using Dapper;
+using Microsoft.Extensions.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace Bugtracker
 {
-    public class DataAccess
+    public class DataAccess : IDataAccess
     {
-        public List<Issue> GetIssues(string name)
+        private readonly IConfiguration _config;
+
+        public string ConnectionStringName { get; set; } = "default";
+
+        public DataAccess(IConfiguration config)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(ConnHelper.ConnVal("DefaultConnection")))
+            _config = config;
+        }
+
+        public async Task<List<T>> LoadData<T, U>(string sqlCommand, U parameters)
+        {
+            string sqlconnectionString = _config.GetConnectionString(ConnectionStringName);
+
+            using (IDbConnection connection = new SqlConnection(sqlconnectionString))
             {
-               return connection.Query<Issue>($"SELECT FROM Issues WHERE name = '{name}'").ToList();
+                var data = await connection.QueryAsync<T>(sqlCommand, parameters);
+
+                return data.ToList();
             }
         }
-        public void AddIssue(string name, string reportedby_id, string description, int status = 0/* statut = pas commencé*/, 
-            string project_name, int importance_level=-1, int difficulty_level = -1 /*-1 = non défini*/)
+
+        public async Task SaveData<T>(string sqlCommand, T parameters)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(ConnHelper.ConnVal("DefaultConnection")))
+            string sqlConnectionString = _config.GetConnectionString(ConnectionStringName);
+            using (IDbConnection connection = new SqlConnection(sqlConnectionString))
             {
-                connection.Query<Issue>($"" +
-                    $"").ToList();
+                await connection.ExecuteAsync(sqlCommand, parameters);
             }
         }
-          
     }
 }

@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BugTrackerLibrary
+namespace BugTrackerLibrary.Models
 {
-    internal class User
+    public class Comment
     {
+        public int comment_Id { get; set; }
         public int user_Id { get; set; }
         public int issue_Id { get; set; }
-        public string email { get; set; }
-        public string role { get; set; }
-        public string name { get; set; }
+        public string content_ { get; set; }
     }
 }

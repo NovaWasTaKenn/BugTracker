@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BugTrackerLibrary
+namespace BugTrackerLibrary.Models
 {
-    internal class File  // revoir structure de classe est ce que
+    public class File  // revoir structure de classe est ce que
                          // meilleur moyen de stocker fichier en C#
     {
         public int file_Id { get; set; }
