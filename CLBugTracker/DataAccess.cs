@@ -10,7 +10,7 @@ namespace Bugtracker
     {
         private readonly IConfiguration _config;
 
-        public string ConnectionStringName { get; set; } = "default";
+        public string ConnectionStringName { get; set; } = "DefaultConnection";
 
         public DataAccess(IConfiguration config)
         {

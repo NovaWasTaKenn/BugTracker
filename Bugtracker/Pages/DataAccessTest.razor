@@ -1,0 +1,91 @@
+﻿@page "/Test"
+@using BugTrackerLibrary
+@using BugTrackerLibrary.Models
+@inject IBugTrackerData bugTrackerData
+
+<h3>DataAccessTest</h3>
+
+
+
+<EditForm Model="@_issue" OnValidSubmit="@SaveIssue"> 
+
+    <label>reportedby_Id : </label>
+    <InputText @bind-Value="_issue.reportedby_Id" placeholder = "reportedby_Id"/>
+    <br/>
+    <label>name : </label>
+    <InputText @bind-Value="_issue.name" placeholder = "name"/>
+    <br/>
+    <label>description : </label>
+    <InputText @bind-Value="_issue.description" placeholder = "description"/>
+    <br/>
+    <label>status : </label>
+    <InputNumber @bind-Value="_issue.status" placeholder = "status"/>
+    <br/>
+    <label>projet_Name : </label>
+    <InputText @bind-Value="_issue.projet_Name" placeholder = "project_name"/>
+    <br/>
+    <label>difficulty_Level : </label>
+    <InputNumber @bind-Value="_issue.difficulty_Level" placeholder = "difficulty_level"/>
+    <br/>
+    <label>importance_Level : </label>
+    <InputNumber @bind-Value="_issue.importance_Level" placeholder = "importance_Level"/>
+    <input type="submit" value= "Save"/>
+    <input type="submit" value= "Clear"/>
+
+</EditForm>
+
+@if(_issues is null)
+{
+    <p><em>Loading ...</em></p>
+}
+else
+{
+    <table>
+        <tdead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Severity</th>
+                <th>Difficulty</th>
+            </tr>
+        </tdead>
+        <tbody>
+            @foreach (var issue in _issues)
+            {
+                <tr>
+                    <td>@issue.issue_Id</td>
+                    <td>@issue.name</td>
+                    <td>@issue.description</td>
+                    <td>@issue.status</td>
+
+                    <td>@issue.importance_Level</td>
+                    <td>@issue.difficulty_Level</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+
+@code {
+    private Issue _issue { get; set; } = new Issue();
+
+    private List<Issue> _issues { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _issues = await bugTrackerData.GetAllIssue();
+    }
+
+    private void SaveIssue()
+    {
+        bugTrackerData.AddIssues(_issue);
+        _issue = new Issue();
+    }
+
+
+}

@@ -24,6 +24,12 @@ namespace BugTrackerLibrary
             return _db.LoadData<Issue, dynamic>(sqlCommand, searchParameters);
         }
 
+        public Task<List<Issue>> GetAllIssue()
+        {
+            string sqlCommand = "SELECT * FROM BugTracker.dbo.Issues";
+            return _db.LoadData<Issue, dynamic>(sqlCommand, new {});
+        }
+
         public Task AddComment(Comment comment)
         {
             string sqlCommand = "Call prcAddComment(@user_Id, @issue_Id, @content)";

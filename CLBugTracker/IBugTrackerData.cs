@@ -8,6 +8,7 @@ namespace BugTrackerLibrary
         Task AddFile(Models.File file);
         Task AddIssues(Issue issue);
         Task<List<Issue>> GetIssue(string searchParameters);
+        Task<List<Issue>> GetAllIssue();
         Task UpdateDifficultyLevel(int issue_Id, char difficultyLevel);
         Task UpdateIssue(string _name, string _description, char _status, string projectName, char difficultyLevel, char severityLevel, int issueId);
         Task UpdateIssueStatus(int issue_Id, char status);
